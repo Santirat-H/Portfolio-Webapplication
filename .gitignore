@@ -1,0 +1,12 @@
+# root-level dependency install
+node_modules/
+
+# env files
+.env
+.env.*
+
+# debug
+npm-debug.log*
+
+# editor
+.DS_Store
