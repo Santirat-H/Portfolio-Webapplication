@@ -71,102 +71,72 @@ export default function FileManager({
           overflow: "hidden",
         }}
       >
-        {/* macOS window chrome */}
+        {/* Unified title bar */}
         <div
           style={{
             height: "46px",
             flex: "none",
             display: "flex",
             alignItems: "center",
-            padding: "0 16px",
-            background: "linear-gradient(#14171e, #0f1218)",
-            borderBottom: "1px solid rgba(255,255,255,.07)",
-            position: "relative",
+            padding: "0 8px 0 20px",
+            background: "rgba(255,255,255,.025)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            borderBottom: "1px solid rgba(255,255,255,.06)",
+            userSelect: "none",
           }}
         >
-          <div style={{ display: "flex", gap: "8px" }}>
-            <button
+          {/* Path */}
+          <div style={{ flex: 1, display: "flex", alignItems: "center", gap: "6px", ...MONO, fontSize: "13px" }}>
+            <span
               onClick={onGoHero}
-              title="Back to home"
-              style={{
-                width: "13px",
-                height: "13px",
-                borderRadius: "50%",
-                background: "#ff5f57",
-                border: "none",
-                cursor: "pointer",
-                padding: 0,
-              }}
-            />
-            <span
-              style={{
-                width: "13px",
-                height: "13px",
-                borderRadius: "50%",
-                background: "#febc2e",
-                display: "block",
-              }}
-            />
-            <span
-              style={{
-                width: "13px",
-                height: "13px",
-                borderRadius: "50%",
-                background: "#28c840",
-                display: "block",
-              }}
-            />
+              style={{ color: "#6b7280", cursor: "pointer", transition: "color 150ms" }}
+              onMouseEnter={e => (e.currentTarget.style.color = "#9aa0aa")}
+              onMouseLeave={e => (e.currentTarget.style.color = "#6b7280")}
+            >~</span>
+            <span style={{ color: "#2d3139" }}>/</span>
+            <span style={{ color: "#5a606b" }}>santirat</span>
+            <span style={{ color: "#2d3139" }}>/</span>
+            <span style={{ color: "var(--accent)", fontWeight: 500 }}>portfolio</span>
           </div>
-          <div
-            style={{
-              position: "absolute",
-              left: 0,
-              right: 0,
-              textAlign: "center",
-              ...MONO,
-              fontSize: "13px",
-              color: "#6b7280",
-              pointerEvents: "none",
-            }}
-          >
-            santirat — ~/portfolio — zsh
-          </div>
-        </div>
 
-        {/* Breadcrumb */}
-        <div
-          style={{
-            flex: "none",
-            padding: "14px 26px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            borderBottom: "1px solid rgba(255,255,255,.05)",
-            ...MONO,
-            fontSize: "13px",
-          }}
-        >
-          <div style={{ color: "#6b7280" }}>
-            <span
-              onClick={onGoHero}
-              style={{ cursor: "pointer", color: "#9aa0aa" }}
-            >
-              ~
-            </span>
-            <span style={{ color: "#3f444d" }}> / </span>santirat
-            <span style={{ color: "#3f444d" }}> / </span>
-            <span style={{ color: "var(--accent)" }}>portfolio</span>
-          </div>
-          <div style={{ color: "#5a606b", fontSize: "12px" }}>
-            2 dirs · 6 items
+          {/* Window controls */}
+          <div style={{ display: "flex", gap: "2px", alignItems: "center" }}>
+            <WinBtn onClick={undefined}>
+              <svg width="10" height="2" viewBox="0 0 10 2" fill="none">
+                <rect width="10" height="1.5" rx=".75" fill="#6b7280" />
+              </svg>
+            </WinBtn>
+            <WinBtn onClick={undefined}>
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <rect x=".75" y=".75" width="8.5" height="8.5" rx="1.5" stroke="#6b7280" strokeWidth="1.5" />
+              </svg>
+            </WinBtn>
+            <WinBtn onClick={onGoHero} danger>
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <path d="M1 1l8 8M9 1l-8 8" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+            </WinBtn>
           </div>
         </div>
 
         {/* Scrollable body */}
         <div
           ref={bodyRef}
-          style={{ flex: 1, overflowY: "auto", padding: "30px 26px 44px" }}
+          style={{ flex: 1, overflowY: "auto", padding: "30px 26px 44px", position: "relative" }}
         >
+          <span style={{
+            position: "absolute",
+            top: "14px",
+            right: "26px",
+            ...MONO,
+            fontSize: "12px",
+            color: "#4b5263",
+            pointerEvents: "none",
+          }}>
+            2 dirs · 6 items
+          </span>
+
           {/* Projects section */}
           <SectionHeader title="PROJECTS" count={projects.length} />
           {projectRows.map((row, i) => (
@@ -468,5 +438,36 @@ function DetailPanel({
         </div>
       </div>
     </div>
+  );
+}
+
+function WinBtn({
+  onClick,
+  danger,
+  children,
+}: {
+  onClick: (() => void) | undefined;
+  danger?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        width: "32px", height: "28px", borderRadius: "6px",
+        background: "transparent", border: "none",
+        cursor: onClick ? "pointer" : "default",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        transition: "background 150ms",
+      }}
+      onMouseEnter={e => {
+        e.currentTarget.style.background = danger
+          ? "rgba(220,53,53,.25)"
+          : "rgba(255,255,255,.08)";
+      }}
+      onMouseLeave={e => { e.currentTarget.style.background = "transparent"; }}
+    >
+      {children}
+    </button>
   );
 }
