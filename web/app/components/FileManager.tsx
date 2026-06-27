@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, type RefObject } from "react";
-import { projects, achievements } from "../lib/showcase";
+import { work, projects, achievements } from "../lib/showcase";
 import type { ShowcaseItem, ShowcasePhoto } from "../lib/showcase";
 import FolderCard from "./FolderCard";
 import PhotoLightbox from "./PhotoLightbox";
@@ -58,6 +58,7 @@ export default function FileManager({
     []
   );
 
+  const workRows = buildRows(work, openId);
   const projectRows = buildRows(projects, openId);
   const achievementRows = buildRows(achievements, openId);
 
@@ -151,11 +152,24 @@ export default function FileManager({
               color: "#4b5263",
               pointerEvents: "none",
             }}>
-              2 dirs · 6 items
+              3 dirs · {work.length + projects.length + achievements.length} items
             </span>
 
+            {/* Work section */}
+            <SectionHeader title="WORK" count={work.length} />
+            {workRows.map((row, i) => (
+              <RowGroup
+                key={i}
+                row={row}
+                onToggle={onToggle}
+                icon="folder"
+                categoryTitle="TECH STACK"
+                onOpenPhotos={openLightbox}
+              />
+            ))}
+
             {/* Projects section */}
-            <SectionHeader title="PROJECTS" count={projects.length} />
+            <SectionHeader title="PROJECTS" count={projects.length} top />
             {projectRows.map((row, i) => (
               <RowGroup
                 key={i}
