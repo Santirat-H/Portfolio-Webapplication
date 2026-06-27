@@ -8,6 +8,11 @@ const MONO: React.CSSProperties = {
   fontFamily: "var(--font-jetbrains-mono), monospace",
 };
 
+const LANGS = [
+  { name: "Thai", level: "Native" },
+  { name: "English", level: "B2 · TOEIC 815 / 990" },
+];
+
 type Props = {
   bgRef: RefObject<HTMLDivElement>;
   bgBodyRef: RefObject<HTMLDivElement>;
@@ -16,10 +21,7 @@ type Props = {
 
 export default function BackgroundSection({ bgRef, bgBodyRef, onGoFiles }: Props) {
   return (
-    <div
-      ref={bgRef}
-      style={{ position: "absolute", inset: 0 }}
-    >
+    <div ref={bgRef} style={{ position: "absolute", inset: 0 }}>
       {/* Top bar */}
       <div
         style={{
@@ -36,14 +38,7 @@ export default function BackgroundSection({ bgRef, bgBodyRef, onGoFiles }: Props
           pointerEvents: "none",
         }}
       >
-        <span
-          style={{
-            ...MONO,
-            fontSize: "12px",
-            letterSpacing: ".2em",
-            color: "#5a606b",
-          }}
-        >
+        <span style={{ ...MONO, fontSize: "12px", letterSpacing: ".2em", color: "#5a606b" }}>
           // BACKGROUND
         </span>
         <button
@@ -59,12 +54,8 @@ export default function BackgroundSection({ bgRef, bgBodyRef, onGoFiles }: Props
             cursor: "pointer",
             transition: "color 150ms",
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = "#9aa0aa";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = "#6b7280";
-          }}
+          onMouseEnter={(e) => { e.currentTarget.style.color = "#9aa0aa"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.color = "#6b7280"; }}
         >
           ← FILES
         </button>
@@ -83,24 +74,76 @@ export default function BackgroundSection({ bgRef, bgBodyRef, onGoFiles }: Props
           paddingRight: "24px",
         }}
       >
-        <div style={{ maxWidth: "860px", margin: "0 auto" }}>
-          <Skills />
-          <Education />
+        <div
+          style={{
+            maxWidth: "960px",
+            margin: "0 auto",
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "48px 56px",
+            alignItems: "flex-start",
+          }}
+        >
+          {/* Left pane — Skills + Languages */}
+          <div style={{ flex: "1 1 380px", minWidth: 0 }}>
+            <Skills />
 
-          {/* Languages */}
-          <div
-            style={{
-              marginTop: "48px",
-              paddingTop: "24px",
-              borderTop: "1px solid rgba(255,255,255,.07)",
-              textAlign: "center",
-              ...MONO,
-              fontSize: "13px",
-              color: "#5a606b",
-              letterSpacing: ".06em",
-            }}
-          >
-            Thai (Native) · English B2 — TOEIC 815 / 990
+            {/* Languages */}
+            <div style={{ marginTop: "40px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "14px",
+                  marginBottom: "18px",
+                }}
+              >
+                <span
+                  style={{
+                    ...MONO,
+                    fontSize: "12px",
+                    letterSpacing: ".24em",
+                    color: "#6b7280",
+                  }}
+                >
+                  LANGUAGES
+                </span>
+                <div
+                  style={{
+                    flex: 1,
+                    height: "1px",
+                    background: "linear-gradient(90deg, rgba(255,255,255,.1), transparent)",
+                  }}
+                />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+                {LANGS.map(({ name, level }) => (
+                  <div
+                    key={name}
+                    style={{ display: "flex", alignItems: "baseline", gap: "20px" }}
+                  >
+                    <span
+                      style={{
+                        ...MONO,
+                        fontSize: "13px",
+                        color: "#e6e8ec",
+                        fontWeight: 600,
+                        minWidth: "72px",
+                      }}
+                    >
+                      {name}
+                    </span>
+                    <span style={{ fontSize: "14px", color: "#9aa0aa" }}>{level}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right pane — Education */}
+          <div style={{ flex: "1 1 300px", minWidth: 0 }}>
+            <Education />
           </div>
         </div>
       </div>

@@ -80,6 +80,12 @@ export default function Portfolio() {
     []
   );
 
+  const bodyAtBottom = useCallback(() => {
+    if (!bodyRef.current) return true;
+    const { scrollTop, scrollHeight, clientHeight } = bodyRef.current;
+    return scrollTop + clientHeight >= scrollHeight - 5;
+  }, []);
+
   const goFiles = useCallback(() => {
     if (busy.current || stage !== "hero") return;
     busy.current = true;
@@ -139,9 +145,14 @@ export default function Portfolio() {
       const target = e.target instanceof Node ? e.target : null;
       if (stage === "hero" && e.deltaY > 12) {
         goFiles();
-      } else if (stage === "files" && winRef.current && !(target && winRef.current.contains(target))) {
-        if (e.deltaY < -12) goHero();
-        else if (e.deltaY > 12) goBackground();
+      } else if (stage === "files") {
+        const inWin = target && winRef.current && winRef.current.contains(target);
+        if (!inWin) {
+          if (e.deltaY < -12) goHero();
+          else if (e.deltaY > 12) goBackground();
+        } else if (e.deltaY > 12 && bodyAtBottom()) {
+          goBackground();
+        }
       } else if (
         stage === "background" &&
         e.deltaY < -12 &&
@@ -178,7 +189,7 @@ export default function Portfolio() {
       const dy = touchY.current - e.touches[0].clientY;
       if (Math.abs(dy) > 36) {
         if (dy > 0 && stage === "hero") goFiles();
-        else if (dy > 0 && stage === "files" && touchOutside.current) goBackground();
+        else if (dy > 0 && stage === "files" && (touchOutside.current || bodyAtBottom())) goBackground();
         else if (dy < 0 && stage === "files" && touchOutside.current) goHero();
         else if (dy < 0 && stage === "background" && (bgBodyRef.current?.scrollTop ?? 1) <= 2) goBackToFiles();
         touchY.current = null;
@@ -196,7 +207,7 @@ export default function Portfolio() {
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchmove", onTouchMove);
     };
-  }, [stage, goFiles, goHero, goBackground, goBackToFiles, bodyAtTop]);
+  }, [stage, goFiles, goHero, goBackground, goBackToFiles, bodyAtTop, bodyAtBottom]);
 
   return (
     <div

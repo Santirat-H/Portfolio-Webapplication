@@ -25,7 +25,7 @@ function Field({ label, value }: { label: string; value: string }) {
 
 export default function Education() {
   return (
-    <div style={{ marginTop: "48px" }}>
+    <div>
       <div
         style={{
           display: "flex",
