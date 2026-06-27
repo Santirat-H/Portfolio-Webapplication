@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import Hero from "./Hero";
 import FileManager from "./FileManager";
+import BackgroundSection from "./BackgroundSection";
 import AccentSwitcher from "./AccentSwitcher";
 
 const ACCENTS = [
@@ -14,7 +15,7 @@ const ACCENTS = [
   { name: "Rose", hex: "#fb7185" },
 ];
 
-type Stage = "hero" | "files";
+type Stage = "hero" | "files" | "background";
 type Accent = { name: string; hex: string };
 
 export default function Portfolio() {
@@ -27,6 +28,8 @@ export default function Portfolio() {
   const nameRef = useRef<HTMLHeadingElement>(null);
   const winRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
+  const bgBodyRef = useRef<HTMLDivElement>(null);
   const busy = useRef(false);
   const touchY = useRef<number | null>(null);
 
@@ -45,6 +48,13 @@ export default function Portfolio() {
     if (stage === "files" && winRef.current) {
       winRef.current.style.animation =
         "pfWindowPop 540ms cubic-bezier(.34,1.4,.5,1) both";
+    }
+  }, [stage]);
+
+  useEffect(() => {
+    if (stage === "background" && bgRef.current) {
+      bgRef.current.style.animation =
+        "pfBgIn 540ms cubic-bezier(.2,.7,.2,1) both";
     }
   }, [stage]);
 
@@ -96,6 +106,28 @@ export default function Portfolio() {
     }, 320);
   }, [stage]);
 
+  const goBackground = useCallback(() => {
+    if (busy.current || stage !== "files") return;
+    busy.current = true;
+    if (winRef.current)
+      winRef.current.style.animation = "pfWindowOut 340ms ease forwards";
+    setTimeout(() => {
+      setStage("background");
+      busy.current = false;
+    }, 320);
+  }, [stage]);
+
+  const goBackToFiles = useCallback(() => {
+    if (busy.current || stage !== "background") return;
+    busy.current = true;
+    if (bgRef.current)
+      bgRef.current.style.animation = "pfBgOut 340ms ease forwards";
+    setTimeout(() => {
+      setStage("files");
+      busy.current = false;
+    }, 320);
+  }, [stage]);
+
   const toggle = useCallback(
     (id: string) => setOpenId((prev) => (prev === id ? null : id)),
     []
@@ -104,17 +136,27 @@ export default function Portfolio() {
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {
       if (busy.current) return;
-      if (stage === "hero" && e.deltaY > 12) goFiles();
-      else if (
-        stage === "files" &&
+      const target = e.target instanceof Node ? e.target : null;
+      if (stage === "hero" && e.deltaY > 12) {
+        goFiles();
+      } else if (stage === "files" && winRef.current && !(target && winRef.current.contains(target))) {
+        if (e.deltaY < -12) goHero();
+        else if (e.deltaY > 12) goBackground();
+      } else if (
+        stage === "background" &&
         e.deltaY < -12 &&
-        winRef.current &&
-        !winRef.current.contains(e.target as Node)
-      ) goHero();
+        (bgBodyRef.current?.scrollTop ?? 1) <= 2
+      ) {
+        goBackToFiles();
+      }
     };
     const onKey = (e: KeyboardEvent) => {
       if (stage === "files" && e.key === "Escape") {
         goHero();
+        return;
+      }
+      if (stage === "background" && e.key === "Escape") {
+        goBackToFiles();
         return;
       }
       if (
@@ -136,7 +178,9 @@ export default function Portfolio() {
       const dy = touchY.current - e.touches[0].clientY;
       if (Math.abs(dy) > 36) {
         if (dy > 0 && stage === "hero") goFiles();
+        else if (dy > 0 && stage === "files" && touchOutside.current) goBackground();
         else if (dy < 0 && stage === "files" && touchOutside.current) goHero();
+        else if (dy < 0 && stage === "background" && (bgBodyRef.current?.scrollTop ?? 1) <= 2) goBackToFiles();
         touchY.current = null;
       }
     };
@@ -152,7 +196,7 @@ export default function Portfolio() {
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchmove", onTouchMove);
     };
-  }, [stage, goFiles, goHero, bodyAtTop]);
+  }, [stage, goFiles, goHero, goBackground, goBackToFiles, bodyAtTop]);
 
   return (
     <div
@@ -202,7 +246,7 @@ export default function Portfolio() {
         }}
       />
 
-      {stage !== "files" && (
+      {stage === "hero" && (
         <Hero heroRef={heroRef} nameRef={nameRef} onGoFiles={goFiles} />
       )}
 
@@ -213,6 +257,14 @@ export default function Portfolio() {
           openId={openId}
           onToggle={toggle}
           onGoHero={goHero}
+        />
+      )}
+
+      {stage === "background" && (
+        <BackgroundSection
+          bgRef={bgRef}
+          bgBodyRef={bgBodyRef}
+          onGoFiles={goBackToFiles}
         />
       )}
 
