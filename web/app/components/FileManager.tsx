@@ -79,6 +79,7 @@ export default function FileManager({
           style={{
             width: "min(1400px, 100%)",
             height: "min(86vh, 840px)",
+            opacity: 0,
             background: "#0d0f14",
             border: "1px solid rgba(255,255,255,.09)",
             borderRadius: "14px",

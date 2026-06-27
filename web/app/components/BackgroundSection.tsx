@@ -21,7 +21,7 @@ type Props = {
 
 export default function BackgroundSection({ bgRef, bgBodyRef, onGoFiles }: Props) {
   return (
-    <div ref={bgRef} style={{ position: "absolute", inset: 0 }}>
+    <div ref={bgRef} style={{ position: "absolute", inset: 0, opacity: 0 }}>
       {/* Top bar */}
       <div
         style={{
