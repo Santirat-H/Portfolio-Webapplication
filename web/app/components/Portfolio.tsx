@@ -44,20 +44,6 @@ export default function Portfolio() {
 
   }, []);
 
-  useEffect(() => {
-    if (stage === "files" && winRef.current) {
-      winRef.current.style.animation =
-        "pfWindowPop 540ms cubic-bezier(.34,1.4,.5,1) both";
-    }
-  }, [stage]);
-
-  useEffect(() => {
-    if (stage === "background" && bgRef.current) {
-      bgRef.current.style.animation =
-        "pfBgIn 540ms cubic-bezier(.2,.7,.2,1) both";
-    }
-  }, [stage]);
-
   const applyAccent = useCallback((hex: string) => {
     rootRef.current?.style.setProperty("--accent", hex);
   }, []);

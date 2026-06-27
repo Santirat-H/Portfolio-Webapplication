@@ -79,7 +79,7 @@ export default function FileManager({
           style={{
             width: "min(1400px, 100%)",
             height: "min(86vh, 840px)",
-            opacity: 0,
+            animation: "pfWindowPop 540ms cubic-bezier(.34,1.4,.5,1) both",
             background: "#0d0f14",
             border: "1px solid rgba(255,255,255,.09)",
             borderRadius: "14px",
