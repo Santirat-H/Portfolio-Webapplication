@@ -76,7 +76,7 @@ export default function FileManager({
         <div
           ref={winRef}
           style={{
-            width: "min(1080px, 100%)",
+            width: "min(1400px, 100%)",
             height: "min(86vh, 840px)",
             background: "#0d0f14",
             border: "1px solid rgba(255,255,255,.09)",
@@ -528,47 +528,8 @@ function DetailPanel({
                       display: "block",
                     }}
                   />
-                  {/* Play/expand hint on hover is handled by border */}
                 </button>
               ))}
-
-              {/* "View all" button — opens at index 0 */}
-              <button
-                onClick={() => onOpenPhotos(photos, 0)}
-                style={{
-                  flex: "none",
-                  width: "120px",
-                  height: "80px",
-                  border: "1px dashed rgba(255,255,255,.12)",
-                  borderRadius: "7px",
-                  background: "rgba(255,255,255,.02)",
-                  cursor: "pointer",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "6px",
-                  color: "#6b7280",
-                  fontFamily: "var(--font-jetbrains-mono), monospace",
-                  fontSize: "11px",
-                  transition: "border-color 150ms, color 150ms",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,.25)";
-                  e.currentTarget.style.color = "#9aa0aa";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,.12)";
-                  e.currentTarget.style.color = "#6b7280";
-                }}
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="3" width="18" height="18" rx="2" />
-                  <circle cx="8.5" cy="8.5" r="1.5" />
-                  <polyline points="21 15 16 10 5 21" />
-                </svg>
-                <span>View all</span>
-              </button>
             </div>
           </div>
         </>

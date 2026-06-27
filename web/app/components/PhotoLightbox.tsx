@@ -52,7 +52,7 @@ export default function PhotoLightbox({ photos, index, onClose, onChange }: Prop
       }}
     >
       <button
-        onClick={onClose}
+        onClick={(e) => { e.stopPropagation(); onClose(); }}
         style={{
           position: "absolute",
           top: "20px",
@@ -171,6 +171,7 @@ function NavBtn({
   dir: "prev" | "next";
   hide: boolean;
 }) {
+  if (hide) return null;
   return (
     <button
       onClick={onClick}
@@ -187,7 +188,6 @@ function NavBtn({
         justifyContent: "center",
         cursor: "pointer",
         transition: "background 150ms",
-        visibility: hide ? "hidden" : "visible",
       }}
       onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,.12)"; }}
       onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,.06)"; }}

@@ -46,13 +46,13 @@ export default function FolderCard({ item, isOpen, icon, onToggle }: Props) {
         background: isOpen
           ? "rgba(255,255,255,.05)"
           : "rgba(255,255,255,.025)",
-        border: `1px solid ${isOpen ? "var(--accent)" : "rgba(255,255,255,.08)"}`,
+        border: "1px solid rgba(255,255,255,.08)",
         borderRadius: "11px",
         cursor: "pointer",
         color: "#e6e8ec",
         fontFamily: "inherit",
         transform: isOpen ? "translateY(-2px)" : undefined,
-        transition: "transform .16s ease, border-color .2s ease, background .2s ease",
+        transition: "transform .16s ease, background .2s ease",
         width: "100%",
       }}
     >
@@ -72,22 +72,7 @@ export default function FolderCard({ item, isOpen, icon, onToggle }: Props) {
       >
         {item.name}
       </span>
-      {item.cover && (
-        <img
-          src={item.cover}
-          alt=""
-          style={{
-            width: "52px",
-            height: "34px",
-            borderRadius: "5px",
-            objectFit: "cover",
-            border: "1px solid rgba(255,255,255,.1)",
-            flex: "none",
-            opacity: isOpen ? 1 : 0.65,
-            transition: "opacity .2s",
-          }}
-        />
-      )}
+
       <span
         style={{
           fontFamily: "var(--font-jetbrains-mono), monospace",
