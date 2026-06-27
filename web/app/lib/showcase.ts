@@ -1,5 +1,6 @@
 export type ShowcaseLink = { label: string; href: string };
 export type ShowcaseCategory = { label: string; items: string[] };
+export type ShowcasePhoto = { src: string; caption?: string };
 
 export type ShowcaseItem = {
   id: string;
@@ -9,6 +10,8 @@ export type ShowcaseItem = {
   overview: string;
   categories: ShowcaseCategory[];
   links: ShowcaseLink[];
+  cover?: string;
+  photos?: ShowcasePhoto[];
 };
 
 export type ShowcaseGroup = {
@@ -33,6 +36,12 @@ export const projects: ShowcaseItem[] = [
       { label: "GitHub", href: "#" },
       { label: "Live demo", href: "#" },
     ],
+    cover: "https://picsum.photos/seed/alpha-c/400/270",
+    photos: [
+      { src: "https://picsum.photos/seed/alpha-1/1200/800", caption: "Dashboard overview" },
+      { src: "https://picsum.photos/seed/alpha-2/1200/800", caption: "Analytics module" },
+      { src: "https://picsum.photos/seed/alpha-3/1200/800", caption: "User management" },
+    ],
   },
   {
     id: "beta",
@@ -48,6 +57,11 @@ export const projects: ShowcaseItem[] = [
     links: [
       { label: "GitHub", href: "#" },
       { label: "Live demo", href: "#" },
+    ],
+    cover: "https://picsum.photos/seed/beta-c/400/270",
+    photos: [
+      { src: "https://picsum.photos/seed/beta-1/1200/800", caption: "Editor view" },
+      { src: "https://picsum.photos/seed/beta-2/1200/800", caption: "Presence indicators" },
     ],
   },
   {

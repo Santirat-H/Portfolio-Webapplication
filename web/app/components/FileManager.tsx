@@ -1,7 +1,10 @@
-import type { RefObject } from "react";
+"use client";
+
+import { useState, useCallback, type RefObject } from "react";
 import { projects, achievements } from "../lib/showcase";
-import type { ShowcaseItem } from "../lib/showcase";
+import type { ShowcaseItem, ShowcasePhoto } from "../lib/showcase";
 import FolderCard from "./FolderCard";
+import PhotoLightbox from "./PhotoLightbox";
 
 type Row = {
   items: (ShowcaseItem & { isOpen: boolean })[];
@@ -42,127 +45,153 @@ export default function FileManager({
   onToggle,
   onGoHero,
 }: Props) {
+  const [lightbox, setLightbox] = useState<{ photos: ShowcasePhoto[]; index: number } | null>(null);
+
+  const openLightbox = useCallback((photos: ShowcasePhoto[], index: number) => {
+    setLightbox({ photos, index });
+  }, []);
+
+  const closeLightbox = useCallback(() => setLightbox(null), []);
+
+  const changeLightbox = useCallback(
+    (i: number) => setLightbox((prev) => prev ? { ...prev, index: i } : null),
+    []
+  );
+
   const projectRows = buildRows(projects, openId);
   const achievementRows = buildRows(achievements, openId);
 
   return (
-    <div
-      style={{
-        position: "absolute",
-        inset: 0,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "42px",
-      }}
-    >
+    <>
       <div
-        ref={winRef}
         style={{
-          width: "min(1080px, 100%)",
-          height: "min(86vh, 840px)",
-          background: "#0d0f14",
-          border: "1px solid rgba(255,255,255,.09)",
-          borderRadius: "14px",
-          boxShadow:
-            "0 50px 130px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.02), inset 0 1px 0 rgba(255,255,255,.04)",
+          position: "absolute",
+          inset: 0,
           display: "flex",
-          flexDirection: "column",
-          overflow: "hidden",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "42px",
         }}
       >
-        {/* Unified title bar */}
         <div
+          ref={winRef}
           style={{
-            height: "46px",
-            flex: "none",
+            width: "min(1080px, 100%)",
+            height: "min(86vh, 840px)",
+            background: "#0d0f14",
+            border: "1px solid rgba(255,255,255,.09)",
+            borderRadius: "14px",
+            boxShadow:
+              "0 50px 130px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.02), inset 0 1px 0 rgba(255,255,255,.04)",
             display: "flex",
-            alignItems: "center",
-            padding: "0 8px 0 20px",
-            background: "rgba(255,255,255,.025)",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-            borderBottom: "1px solid rgba(255,255,255,.06)",
-            userSelect: "none",
+            flexDirection: "column",
+            overflow: "hidden",
           }}
         >
-          {/* Path */}
-          <div style={{ flex: 1, display: "flex", alignItems: "center", gap: "6px", ...MONO, fontSize: "13px" }}>
-            <span
-              onClick={onGoHero}
-              style={{ color: "#6b7280", cursor: "pointer", transition: "color 150ms" }}
-              onMouseEnter={e => (e.currentTarget.style.color = "#9aa0aa")}
-              onMouseLeave={e => (e.currentTarget.style.color = "#6b7280")}
-            >~</span>
-            <span style={{ color: "#2d3139" }}>/</span>
-            <span style={{ color: "#5a606b" }}>santirat</span>
-            <span style={{ color: "#2d3139" }}>/</span>
-            <span style={{ color: "var(--accent)", fontWeight: 500 }}>portfolio</span>
+          {/* Unified title bar */}
+          <div
+            style={{
+              height: "46px",
+              flex: "none",
+              display: "flex",
+              alignItems: "center",
+              padding: "0 8px 0 20px",
+              background: "rgba(255,255,255,.025)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              borderBottom: "1px solid rgba(255,255,255,.06)",
+              userSelect: "none",
+            }}
+          >
+            {/* Path */}
+            <div style={{ flex: 1, display: "flex", alignItems: "center", gap: "6px", ...MONO, fontSize: "13px" }}>
+              <span
+                onClick={onGoHero}
+                style={{ color: "#6b7280", cursor: "pointer", transition: "color 150ms" }}
+                onMouseEnter={e => (e.currentTarget.style.color = "#9aa0aa")}
+                onMouseLeave={e => (e.currentTarget.style.color = "#6b7280")}
+              >~</span>
+              <span style={{ color: "#2d3139" }}>/</span>
+              <span style={{ color: "#5a606b" }}>santirat</span>
+              <span style={{ color: "#2d3139" }}>/</span>
+              <span style={{ color: "var(--accent)", fontWeight: 500 }}>portfolio</span>
+            </div>
+
+            {/* Window controls */}
+            <div style={{ display: "flex", gap: "2px", alignItems: "center" }}>
+              <WinBtn onClick={undefined}>
+                <svg width="10" height="2" viewBox="0 0 10 2" fill="none">
+                  <rect width="10" height="1.5" rx=".75" fill="#6b7280" />
+                </svg>
+              </WinBtn>
+              <WinBtn onClick={undefined}>
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                  <rect x=".75" y=".75" width="8.5" height="8.5" rx="1.5" stroke="#6b7280" strokeWidth="1.5" />
+                </svg>
+              </WinBtn>
+              <WinBtn onClick={onGoHero} danger>
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                  <path d="M1 1l8 8M9 1l-8 8" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+              </WinBtn>
+            </div>
           </div>
 
-          {/* Window controls */}
-          <div style={{ display: "flex", gap: "2px", alignItems: "center" }}>
-            <WinBtn onClick={undefined}>
-              <svg width="10" height="2" viewBox="0 0 10 2" fill="none">
-                <rect width="10" height="1.5" rx=".75" fill="#6b7280" />
-              </svg>
-            </WinBtn>
-            <WinBtn onClick={undefined}>
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                <rect x=".75" y=".75" width="8.5" height="8.5" rx="1.5" stroke="#6b7280" strokeWidth="1.5" />
-              </svg>
-            </WinBtn>
-            <WinBtn onClick={onGoHero} danger>
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                <path d="M1 1l8 8M9 1l-8 8" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-            </WinBtn>
+          {/* Scrollable body */}
+          <div
+            ref={bodyRef}
+            style={{ flex: 1, overflowY: "auto", padding: "30px 26px 44px", position: "relative" }}
+          >
+            <span style={{
+              position: "absolute",
+              top: "14px",
+              right: "26px",
+              ...MONO,
+              fontSize: "12px",
+              color: "#4b5263",
+              pointerEvents: "none",
+            }}>
+              2 dirs · 6 items
+            </span>
+
+            {/* Projects section */}
+            <SectionHeader title="PROJECTS" count={projects.length} />
+            {projectRows.map((row, i) => (
+              <RowGroup
+                key={i}
+                row={row}
+                onToggle={onToggle}
+                icon="folder"
+                categoryTitle="TECH STACK"
+                onOpenPhotos={openLightbox}
+              />
+            ))}
+
+            {/* Achievements section */}
+            <SectionHeader title="ACHIEVEMENTS" count={achievements.length} top />
+            {achievementRows.map((row, i) => (
+              <RowGroup
+                key={i}
+                row={row}
+                onToggle={onToggle}
+                icon="star"
+                categoryTitle="DETAILS"
+                onOpenPhotos={openLightbox}
+              />
+            ))}
           </div>
-        </div>
-
-        {/* Scrollable body */}
-        <div
-          ref={bodyRef}
-          style={{ flex: 1, overflowY: "auto", padding: "30px 26px 44px", position: "relative" }}
-        >
-          <span style={{
-            position: "absolute",
-            top: "14px",
-            right: "26px",
-            ...MONO,
-            fontSize: "12px",
-            color: "#4b5263",
-            pointerEvents: "none",
-          }}>
-            2 dirs · 6 items
-          </span>
-
-          {/* Projects section */}
-          <SectionHeader title="PROJECTS" count={projects.length} />
-          {projectRows.map((row, i) => (
-            <RowGroup
-              key={i}
-              row={row}
-              onToggle={onToggle}
-              icon="folder"
-              categoryTitle="TECH STACK"
-            />
-          ))}
-
-          {/* Achievements section */}
-          <SectionHeader title="ACHIEVEMENTS" count={achievements.length} top />
-          {achievementRows.map((row, i) => (
-            <RowGroup
-              key={i}
-              row={row}
-              onToggle={onToggle}
-              icon="star"
-              categoryTitle="DETAILS"
-            />
-          ))}
         </div>
       </div>
-    </div>
+
+      {lightbox && (
+        <PhotoLightbox
+          photos={lightbox.photos}
+          index={lightbox.index}
+          onClose={closeLightbox}
+          onChange={changeLightbox}
+        />
+      )}
+    </>
   );
 }
 
@@ -223,11 +252,13 @@ function RowGroup({
   onToggle,
   icon,
   categoryTitle,
+  onOpenPhotos,
 }: {
   row: Row;
   onToggle: (id: string) => void;
   icon: "folder" | "star";
   categoryTitle: string;
+  onOpenPhotos: (photos: ShowcasePhoto[], index: number) => void;
 }) {
   return (
     <div style={{ marginBottom: "14px" }}>
@@ -251,7 +282,11 @@ function RowGroup({
       </div>
 
       {row.openItem && (
-        <DetailPanel item={row.openItem} categoryTitle={categoryTitle} />
+        <DetailPanel
+          item={row.openItem}
+          categoryTitle={categoryTitle}
+          onOpenPhotos={onOpenPhotos}
+        />
       )}
     </div>
   );
@@ -260,10 +295,14 @@ function RowGroup({
 function DetailPanel({
   item,
   categoryTitle,
+  onOpenPhotos,
 }: {
   item: ShowcaseItem;
   categoryTitle: string;
+  onOpenPhotos: (photos: ShowcasePhoto[], index: number) => void;
 }) {
+  const photos = item.photos ?? [];
+
   return (
     <div
       style={{
@@ -437,6 +476,103 @@ function DetailPanel({
           </div>
         </div>
       </div>
+
+      {/* Photo strip */}
+      {photos.length > 0 && (
+        <>
+          <div style={{ height: "1px", background: "rgba(255,255,255,.07)", margin: "22px 0 18px" }} />
+          <div>
+            <div
+              style={{
+                fontFamily: "var(--font-jetbrains-mono), monospace",
+                fontSize: "11px",
+                letterSpacing: ".2em",
+                color: "#6b7280",
+                marginBottom: "12px",
+              }}
+            >
+              PREVIEW
+            </div>
+            <div style={{ display: "flex", gap: "10px", overflowX: "auto", paddingBottom: "4px" }}>
+              {photos.map((photo, i) => (
+                <button
+                  key={i}
+                  onClick={() => onOpenPhotos(photos, i)}
+                  style={{
+                    flex: "none",
+                    padding: 0,
+                    border: "1px solid rgba(255,255,255,.1)",
+                    borderRadius: "7px",
+                    overflow: "hidden",
+                    cursor: "pointer",
+                    background: "none",
+                    transition: "border-color 150ms, transform 150ms",
+                    position: "relative",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = "var(--accent)";
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,.1)";
+                    e.currentTarget.style.transform = "translateY(0)";
+                  }}
+                >
+                  <img
+                    src={photo.src}
+                    alt={photo.caption ?? `Photo ${i + 1}`}
+                    style={{
+                      width: "120px",
+                      height: "80px",
+                      objectFit: "cover",
+                      display: "block",
+                    }}
+                  />
+                  {/* Play/expand hint on hover is handled by border */}
+                </button>
+              ))}
+
+              {/* "View all" button — opens at index 0 */}
+              <button
+                onClick={() => onOpenPhotos(photos, 0)}
+                style={{
+                  flex: "none",
+                  width: "120px",
+                  height: "80px",
+                  border: "1px dashed rgba(255,255,255,.12)",
+                  borderRadius: "7px",
+                  background: "rgba(255,255,255,.02)",
+                  cursor: "pointer",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "6px",
+                  color: "#6b7280",
+                  fontFamily: "var(--font-jetbrains-mono), monospace",
+                  fontSize: "11px",
+                  transition: "border-color 150ms, color 150ms",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,.25)";
+                  e.currentTarget.style.color = "#9aa0aa";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,.12)";
+                  e.currentTarget.style.color = "#6b7280";
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" />
+                  <circle cx="8.5" cy="8.5" r="1.5" />
+                  <polyline points="21 15 16 10 5 21" />
+                </svg>
+                <span>View all</span>
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

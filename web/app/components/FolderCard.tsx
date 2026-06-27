@@ -72,6 +72,22 @@ export default function FolderCard({ item, isOpen, icon, onToggle }: Props) {
       >
         {item.name}
       </span>
+      {item.cover && (
+        <img
+          src={item.cover}
+          alt=""
+          style={{
+            width: "52px",
+            height: "34px",
+            borderRadius: "5px",
+            objectFit: "cover",
+            border: "1px solid rgba(255,255,255,.1)",
+            flex: "none",
+            opacity: isOpen ? 1 : 0.65,
+            transition: "opacity .2s",
+          }}
+        />
+      )}
       <span
         style={{
           fontFamily: "var(--font-jetbrains-mono), monospace",

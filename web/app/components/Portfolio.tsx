@@ -38,6 +38,7 @@ export default function Portfolio() {
     } catch {}
     setAccentState(acc);
     rootRef.current?.style.setProperty("--accent", acc.hex);
+
   }, []);
 
   useEffect(() => {
