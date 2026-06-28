@@ -369,6 +369,25 @@ function DetailPanel({
           </span>
         ))}
       </div>
+      {item.highlight && (
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "7px",
+            marginTop: "14px",
+            fontFamily: "var(--font-jetbrains-mono), monospace",
+            fontSize: "11px",
+            color: "var(--accent)",
+            border: "1px solid color-mix(in srgb, var(--accent) 40%, transparent)",
+            padding: "4px 10px",
+            borderRadius: "5px",
+          }}
+        >
+          <span>◆</span>
+          {item.highlight}
+        </div>
+      )}
       <div
         style={{
           height: "1px",
@@ -464,30 +483,53 @@ function DetailPanel({
             LINKS
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-            {item.links.map((lk) => (
-              <a
-                key={lk.label}
-                href={lk.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: "10px",
-                  fontFamily: "var(--font-jetbrains-mono), monospace",
-                  fontSize: "13px",
-                  color: "#e6e8ec",
-                  textDecoration: "none",
-                  padding: "11px 13px",
-                  border: "1px solid rgba(255,255,255,.12)",
-                  borderRadius: "8px",
-                }}
-              >
-                {lk.label}
-                <span style={{ color: "#6b7280" }}>↗</span>
-              </a>
-            ))}
+            {item.links.map((lk) =>
+              lk.disabled ? (
+                <div
+                  key={lk.label}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "3px",
+                    fontFamily: "var(--font-jetbrains-mono), monospace",
+                    fontSize: "13px",
+                    color: "#3d4450",
+                    padding: "11px 13px",
+                    border: "1px solid rgba(255,255,255,.06)",
+                    borderRadius: "8px",
+                    cursor: "default",
+                  }}
+                >
+                  <span>{lk.label}</span>
+                  {lk.note && (
+                    <span style={{ fontSize: "11px", color: "#2d333f" }}>{lk.note}</span>
+                  )}
+                </div>
+              ) : (
+                <a
+                  key={lk.label}
+                  href={lk.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: "10px",
+                    fontFamily: "var(--font-jetbrains-mono), monospace",
+                    fontSize: "13px",
+                    color: "#e6e8ec",
+                    textDecoration: "none",
+                    padding: "11px 13px",
+                    border: "1px solid rgba(255,255,255,.12)",
+                    borderRadius: "8px",
+                  }}
+                >
+                  {lk.label}
+                  <span style={{ color: "#6b7280" }}>↗</span>
+                </a>
+              )
+            )}
           </div>
         </div>
       </div>
@@ -508,7 +550,7 @@ function DetailPanel({
             >
               PREVIEW
             </div>
-            <div style={{ display: "flex", gap: "10px", overflowX: "auto", paddingBottom: "4px" }}>
+            <div style={{ display: "flex", gap: "10px", overflowX: "auto", padding: "4px 4px 8px 4px" }}>
               {photos.map((photo, i) => (
                 <button
                   key={i}
@@ -516,20 +558,20 @@ function DetailPanel({
                   style={{
                     flex: "none",
                     padding: 0,
-                    border: "1px solid rgba(255,255,255,.1)",
+                    border: "none",
                     borderRadius: "7px",
                     overflow: "hidden",
                     cursor: "pointer",
-                    background: "none",
-                    transition: "border-color 150ms, transform 150ms",
+                    background: "rgba(0,0,0,.3)",
+                    transition: "box-shadow 150ms, transform 150ms",
                     position: "relative",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = "var(--accent)";
+                    e.currentTarget.style.boxShadow = "0 0 0 2px var(--accent)";
                     e.currentTarget.style.transform = "translateY(-2px)";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = "rgba(255,255,255,.1)";
+                    e.currentTarget.style.boxShadow = "none";
                     e.currentTarget.style.transform = "translateY(0)";
                   }}
                 >
@@ -537,8 +579,8 @@ function DetailPanel({
                     src={photo.src}
                     alt={photo.caption ?? `Photo ${i + 1}`}
                     style={{
-                      width: "120px",
-                      height: "80px",
+                      width: "160px",
+                      height: "100px",
                       objectFit: "cover",
                       display: "block",
                     }}

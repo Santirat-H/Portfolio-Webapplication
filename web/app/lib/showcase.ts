@@ -1,4 +1,4 @@
-export type ShowcaseLink = { label: string; href: string };
+export type ShowcaseLink = { label: string; href: string; disabled?: boolean; note?: string };
 export type ShowcaseCategory = { label: string; items: string[] };
 export type ShowcasePhoto = { src: string; caption?: string };
 
@@ -8,6 +8,7 @@ export type ShowcaseItem = {
   tagline: string;
   meta: string[];
   overview: string;
+  highlight?: string;
   categories: ShowcaseCategory[];
   links: ShowcaseLink[];
   cover?: string;
@@ -22,16 +23,27 @@ export type ShowcaseGroup = {
 export const work: ShowcaseItem[] = [
   {
     id: "moph",
-    name: "MoPH ICT System",
-    tagline: "Ministry of Public Health — internal platform",
-    meta: ["Full-Stack Developer", "2024–2025", "Government"],
+    name: "CIO Information Management System",
+    tagline: "ICT Division, Ministry of Public Health Thailand",
+    meta: ["Solo", "21 Apr – 10 Oct 2025", "Internal"],
     overview:
-      "Placeholder — describe the system here.",
+      "An internal web system built solo — from requirements through deployment — for Thailand's Ministry of Public Health. The system manages CIO-level personnel records including personal information, profile images, and yearly history logs, with a staff-facing view and a separate admin interface for adding and managing records. It replaced a legacy manual workflow and remains in active use.",
+    highlight: "Built solo — requirements through deployment",
     categories: [
-      { label: "Frontend", items: ["—"] },
-      { label: "Backend", items: ["—"] },
+      { label: "Frontend", items: ["Next.js"] },
+      { label: "Backend", items: ["NestJS", "PostgreSQL", "Prisma ORM", "MinIO", "JWT Auth"] },
+      { label: "Infra", items: ["Docker", "GitHub Actions"] },
     ],
-    links: [],
+    links: [
+      { label: "GitHub", href: "#", disabled: true, note: "Private — internal system" },
+      { label: "Demo", href: "#", disabled: true, note: "Not available — internal deployment" },
+    ],
+    photos: [
+      { src: "/ict-system/cio-admin-login.jpg", caption: "Authentication" },
+      { src: "/ict-system/cio-portal-info.jpg", caption: "Personnel Profile View" },
+      { src: "/ict-system/cio-portal-year-record.jpg", caption: "Yearly History Records" },
+      { src: "/ict-system/cio-admin-create.jpg", caption: "Admin: Add Record" },
+    ],
   },
 ];
 
