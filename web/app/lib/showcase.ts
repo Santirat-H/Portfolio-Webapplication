@@ -100,19 +100,6 @@ export const projects: ShowcaseItem[] = [
     ],
   },
   {
-    id: "taskboard",
-    name: "Task Board",
-    tagline: "In progress",
-    meta: ["Solo", "2025", "In Progress"],
-    overview:
-      "Placeholder — describe the task board here.",
-    categories: [
-      { label: "Frontend", items: ["—"] },
-      { label: "Backend", items: ["—"] },
-    ],
-    links: [],
-  },
-  {
     id: "novel-assistant",
     name: "Novel Assistant — Thai RAG Drafting Pipeline",
     tagline: "Thai-language novel drafting with LangGraph and pgvector",
