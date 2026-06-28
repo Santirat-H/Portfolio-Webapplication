@@ -16,7 +16,7 @@ function Field({ label, value }: { label: string; value: string }) {
       >
         {label}
       </div>
-      <div style={{ ...MONO, fontSize: "13px", color: "#9aa0aa", lineHeight: 1.5 }}>
+      <div style={{ ...MONO, fontSize: "14px", color: "#9aa0aa", lineHeight: 1.5 }}>
         {value}
       </div>
     </div>
@@ -77,7 +77,7 @@ export default function Education() {
           <p
             style={{
               ...MONO,
-              fontSize: "13px",
+              fontSize: "14px",
               color: "var(--accent)",
               margin: 0,
             }}

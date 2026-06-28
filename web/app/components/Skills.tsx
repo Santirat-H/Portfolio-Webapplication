@@ -80,7 +80,7 @@ export default function Skills() {
             <div
               style={{
                 ...MONO,
-                fontSize: "13px",
+                fontSize: "14px",
                 color: "#e6e8ec",
                 fontWeight: 600,
                 marginBottom: "10px",
@@ -94,7 +94,7 @@ export default function Skills() {
                   key={item}
                   style={{
                     ...MONO,
-                    fontSize: "12px",
+                    fontSize: "13px",
                     color: "#c5c9d0",
                     padding: "4px 10px",
                     border:

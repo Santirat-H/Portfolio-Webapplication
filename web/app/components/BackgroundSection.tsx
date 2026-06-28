@@ -70,13 +70,13 @@ export default function BackgroundSection({ bgRef, bgBodyRef, onGoFiles }: Props
           overflowY: "auto",
           paddingTop: "80px",
           paddingBottom: "60px",
-          paddingLeft: "24px",
-          paddingRight: "24px",
+          paddingLeft: "42px",
+          paddingRight: "42px",
         }}
       >
         <div
           style={{
-            maxWidth: "960px",
+            maxWidth: "1400px",
             margin: "0 auto",
             display: "flex",
             flexWrap: "wrap",
@@ -126,7 +126,7 @@ export default function BackgroundSection({ bgRef, bgBodyRef, onGoFiles }: Props
                     <span
                       style={{
                         ...MONO,
-                        fontSize: "13px",
+                        fontSize: "14px",
                         color: "#e6e8ec",
                         fontWeight: 600,
                         minWidth: "72px",
