@@ -5,6 +5,7 @@ import Hero from "./Hero";
 import FileManager from "./FileManager";
 import BackgroundSection from "./BackgroundSection";
 import AccentSwitcher from "./AccentSwitcher";
+import ScrollProgress, { Section } from "./ScrollProgress";
 
 const ACCENTS = [
   { name: "Violet", hex: "#a78bfa" },
@@ -17,6 +18,16 @@ const ACCENTS = [
 
 type Stage = "hero" | "files" | "background";
 type Accent = { name: string; hex: string };
+
+// Single source of truth for the page sections.
+// Add/remove a section here and the scroll-progress dots update automatically.
+const SECTIONS: readonly Section[] = [
+  { id: "hero", label: "Hero" },
+  { id: "files", label: "Files" },
+  { id: "background", label: "Background" },
+] as const;
+
+const STAGE_ORDER: readonly Stage[] = ["hero", "files", "background"];
 
 export default function Portfolio() {
   const [stage, setStage] = useState<Stage>("hero");
@@ -118,6 +129,58 @@ export default function Portfolio() {
       setStage("files");
       busy.current = false;
     }, 320);
+  }, [stage]);
+
+  // Click-to-jump navigation: steps through adjacent transitions until the
+  // requested stage is reached. Works for any from->to combination.
+  const [targetStage, setTargetStage] = useState<Stage | null>(null);
+  const goToStage = useCallback(
+    (target: Stage) => {
+      if (busy.current || stage === target) return;
+      if (!STAGE_ORDER.includes(target)) return;
+      setTargetStage(target);
+    },
+    [stage]
+  );
+
+  // Drives the chained transitions once targetStage is set.
+  useEffect(() => {
+    if (!targetStage) return;
+    if (stage === targetStage) {
+      setTargetStage(null);
+      return;
+    }
+    if (busy.current) return;
+
+    const fromIdx = STAGE_ORDER.indexOf(stage);
+    const toIdx = STAGE_ORDER.indexOf(targetStage);
+    if (fromIdx === -1 || toIdx === -1) return;
+
+    if (fromIdx < toIdx) {
+      // step forward
+      if (stage === "hero") goFiles();
+      else if (stage === "files") goBackground();
+    } else {
+      // step backward
+      if (stage === "files") goHero();
+      else if (stage === "background") goBackToFiles();
+    }
+  }, [targetStage, stage, goFiles, goHero, goBackground, goBackToFiles]);
+
+  // Track mount vs visibility separately so we can fade out before unmounting
+  // when the user returns to the hero section.
+  const [progressMounted, setProgressMounted] = useState(false);
+  const [progressVisible, setProgressVisible] = useState(false);
+  useEffect(() => {
+    if (stage !== "hero") {
+      setProgressMounted(true);
+      // Wait one frame so the fade-in transition triggers from opacity 0.
+      const raf = requestAnimationFrame(() => setProgressVisible(true));
+      return () => cancelAnimationFrame(raf);
+    }
+    setProgressVisible(false);
+    const t = setTimeout(() => setProgressMounted(false), 440);
+    return () => clearTimeout(t);
   }, [stage]);
 
   const toggle = useCallback(
@@ -266,6 +329,18 @@ export default function Portfolio() {
       )}
 
       <AccentSwitcher accentName={accent.name} onAccent={setAccent} />
+
+      {/* Section navigation — mounted while off-hero so it can fade out
+          gracefully when the user returns to hero. */}
+      {progressMounted && (
+        <ScrollProgress
+          sections={SECTIONS}
+          currentId={stage}
+          onSelect={(id) => goToStage(id as Stage)}
+          accent={accent.hex}
+          visible={progressVisible}
+        />
+      )}
     </div>
   );
 }

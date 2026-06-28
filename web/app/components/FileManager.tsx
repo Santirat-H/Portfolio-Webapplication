@@ -31,8 +31,8 @@ const MONO: React.CSSProperties = {
 };
 
 type Props = {
-  winRef: RefObject<HTMLDivElement>;
-  bodyRef: RefObject<HTMLDivElement>;
+  winRef: RefObject<HTMLDivElement | null>;
+  bodyRef: RefObject<HTMLDivElement | null>;
   openId: string | null;
   onToggle: (id: string) => void;
   onGoHero: () => void;

@@ -1,8 +1,8 @@
 import type { RefObject } from "react";
 
 type Props = {
-  heroRef: RefObject<HTMLDivElement>;
-  nameRef: RefObject<HTMLHeadingElement>;
+  heroRef: RefObject<HTMLDivElement | null>;
+  nameRef: RefObject<HTMLHeadingElement | null>;
   onGoFiles: () => void;
 };
 
