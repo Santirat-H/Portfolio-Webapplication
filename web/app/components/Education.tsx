@@ -16,7 +16,7 @@ function Field({ label, value }: { label: string; value: string }) {
       >
         {label}
       </div>
-      <div style={{ fontSize: "14px", color: "#9aa0aa", lineHeight: 1.5 }}>
+      <div style={{ ...MONO, fontSize: "13px", color: "#9aa0aa", lineHeight: 1.5 }}>
         {value}
       </div>
     </div>

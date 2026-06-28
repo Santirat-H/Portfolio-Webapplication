@@ -125,7 +125,8 @@ export default function BackgroundSection({ bgRef, bgBodyRef, onGoFiles }: Props
                   >
                     <span
                       style={{
-                        fontSize: "14px",
+                        ...MONO,
+                        fontSize: "13px",
                         color: "#e6e8ec",
                         fontWeight: 600,
                         minWidth: "72px",

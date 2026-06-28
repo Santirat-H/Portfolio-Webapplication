@@ -79,6 +79,7 @@ export default function Skills() {
           <div key={group.label}>
             <div
               style={{
+                ...MONO,
                 fontSize: "13px",
                 color: "#e6e8ec",
                 fontWeight: 600,
