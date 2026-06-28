@@ -548,6 +548,107 @@ function DetailPanel({
         </div>
       </div>
 
+      {item.callout && (
+        <>
+          <div style={{ height: "1px", background: "rgba(255,255,255,.07)", margin: "20px 0" }} />
+          <div
+            style={{
+              padding: "16px 20px",
+              border: "1px solid rgba(255,255,255,.07)",
+              borderLeft: "3px solid var(--accent)",
+              borderRadius: "8px",
+              background: "color-mix(in srgb, var(--accent) 6%, transparent)",
+              fontFamily: "var(--font-jetbrains-mono), monospace",
+              fontSize: "13px",
+              color: "#9aa0aa",
+              lineHeight: 1.7,
+            }}
+          >
+            {item.callout}
+          </div>
+        </>
+      )}
+
+      {(item.built || item.next) && (
+        <>
+          <div style={{ height: "1px", background: "rgba(255,255,255,.07)", margin: "20px 0" }} />
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: item.built && item.next ? "1fr 1fr" : "1fr",
+              gap: "32px",
+            }}
+          >
+            {item.built && (
+              <div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-jetbrains-mono), monospace",
+                    fontSize: "11px",
+                    letterSpacing: ".2em",
+                    color: "#6b7280",
+                    marginBottom: "12px",
+                  }}
+                >
+                  CURRENTLY WORKING
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "9px" }}>
+                  {item.built.map((b) => (
+                    <div
+                      key={b}
+                      style={{
+                        display: "flex",
+                        gap: "10px",
+                        fontFamily: "var(--font-jetbrains-mono), monospace",
+                        fontSize: "12px",
+                        color: "#9aa0aa",
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      <span style={{ color: "var(--accent)", flexShrink: 0, marginTop: "1px" }}>—</span>
+                      {b}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {item.next && (
+              <div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-jetbrains-mono), monospace",
+                    fontSize: "11px",
+                    letterSpacing: ".2em",
+                    color: "#6b7280",
+                    marginBottom: "12px",
+                  }}
+                >
+                  UP NEXT
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "9px" }}>
+                  {item.next.map((n) => (
+                    <div
+                      key={n}
+                      style={{
+                        display: "flex",
+                        gap: "10px",
+                        fontFamily: "var(--font-jetbrains-mono), monospace",
+                        fontSize: "12px",
+                        color: "#9aa0aa",
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      <span style={{ color: "var(--accent)", flexShrink: 0, marginTop: "1px" }}>—</span>
+                      {n}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </>
+      )}
+
       {item.stats && (
         <>
           <div style={{ height: "1px", background: "rgba(255,255,255,.07)", margin: "20px 0" }} />

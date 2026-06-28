@@ -12,9 +12,12 @@ export type ShowcaseItem = {
   meta: string[];
   overview: string;
   highlight?: string;
+  callout?: string;
   categories: ShowcaseCategory[];
   stats?: ShowcaseStat[];
   paperTitle?: string;
+  built?: string[];
+  next?: string[];
   previewNote?: string;
   links: ShowcaseLink[];
   cover?: string;
@@ -108,6 +111,37 @@ export const projects: ShowcaseItem[] = [
       { label: "Backend", items: ["—"] },
     ],
     links: [],
+  },
+  {
+    id: "novel-assistant",
+    name: "Novel Assistant — Thai RAG Drafting Pipeline",
+    tagline: "Thai-language novel drafting with LangGraph and pgvector",
+    meta: ["In Progress", "2025", "Local"],
+    overview:
+      "A Thai-language novel drafting assistant built with LangGraph and pgvector. The system ingests a story bible — characters, lore, scenes — chunks and embeds the Thai text using a benchmark-selected embedding model, stores vectors in PostgreSQL with the pgvector extension, and runs a three-node LangGraph workflow: retrieve relevant passages → draft prose → consistency check → conditional self-revision loop. The pipeline revises its own output if the draft contradicts established lore, looping until it passes the consistency check or hits a hard limit of 3 iterations. The embedding model (codefuse-ai/F2LLM-v2-1.7B) was selected over the naive multilingual default based on Thai-specific MTEB benchmarks — a gap of 11 points that would have silently degraded retrieval quality with no obvious error.",
+    highlight: "In active development",
+    callout:
+      "Embedding model selected via Thai MTEB benchmark — not the default. F2LLM-v2-1.7B chosen over BGE-M3 for Thai retrieval performance (75.32 score) at a 3.4GB VRAM footprint on a local RTX 3060.",
+    categories: [
+      { label: "Pipeline", items: ["Python", "LangGraph", "LangChain", "pgvector", "PostgreSQL"] },
+      { label: "Models", items: ["sentence-transformers", "F2LLM-v2-1.7B", "Gemini via OpenRouter"] },
+      { label: "Infra", items: ["psycopg2"] },
+    ],
+    built: [
+      "Thai text ingest pipeline — 144 chunks embedded and stored in pgvector",
+      "Semantic retrieval of Thai passages by meaning, not keyword",
+      "Three-node LangGraph graph with state passing between nodes",
+      "Conditional self-revision loop — confirmed firing at iteration 2 on a real run",
+      "Hard safety stop at 3 iterations regardless of output",
+    ],
+    next: [
+      "Push to GitHub (public)",
+      "Agentic RAG v2 — convert draft node into a tool-calling agent with typed character sheets, scene search, and lore lookup tools",
+    ],
+    links: [
+      { label: "GitHub", href: "#", disabled: true, note: "Coming soon" },
+      { label: "Demo", href: "#", disabled: true, note: "Local only" },
+    ],
   },
 ];
 
