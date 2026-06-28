@@ -135,15 +135,21 @@ export const achievements: ShowcaseItem[] = [
   },
   {
     id: "japan",
-    name: "Japan Exchange Program",
-    tagline: "Placeholder — institution · year",
-    meta: ["Exchange", "2024"],
+    name: "Global PBL — Silpakorn × Shibaura Institute of Technology (Japan)",
+    tagline: "",
+    subtitle: "Global Project Based Learning Program · June 2024 · 10 days",
+    meta: ["Exchange", "June 2024", "10 days"],
     overview:
-      "Placeholder — describe the Japan exchange program here.",
-    categories: [
-      { label: "Program", items: ["—"] },
-      { label: "Duration", items: ["—"] },
-    ],
+      "Participated in a joint engineering program between Silpakorn University (Thailand) and Shibaura Institute of Technology (Japan). Collaborated cross-culturally with Japanese engineering students to design, build, and deliver a portable sound detector from component level — overcoming language barriers to meet a strict delivery deadline. Technical contributions included Arduino (C++) programming to process analog microphone signals, convert readings into decibel (dB) units, and implement a real-time data logging system writing to SD card storage. Also contributed to circuit schematic design, component sourcing (ICs and sensors), and hardware assembly.",
+    highlight: "Cross-cultural engineering — delivered a working hardware prototype in 10 days",
+    categories: [],
     links: [],
+    photos: [
+      { src: "/gpbl/gpbl-prototype1.jpg", caption: "Sound Detector Prototype" },
+      { src: "/gpbl/gpbl-prototype2.jpg", caption: "Hardware Assembly" },
+      { src: "/gpbl/gpbl-group.jpg", caption: "Team — Silpakorn × Shibaura" },
+      { src: "/gpbl/certification-thailand.jpg", caption: "Certificate — Silpakorn University" },
+      { src: "/gpbl/certification-japan.jpg", caption: "Certificate — Shibaura Institute of Technology" },
+    ],
   },
 ];
