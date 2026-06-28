@@ -14,8 +14,8 @@ const LANGS = [
 ];
 
 type Props = {
-  bgRef: RefObject<HTMLDivElement>;
-  bgBodyRef: RefObject<HTMLDivElement>;
+  bgRef: RefObject<HTMLDivElement | null>;
+  bgBodyRef: RefObject<HTMLDivElement | null>;
   onGoFiles: () => void;
 };
 
@@ -125,8 +125,7 @@ export default function BackgroundSection({ bgRef, bgBodyRef, onGoFiles }: Props
                   >
                     <span
                       style={{
-                        ...MONO,
-                        fontSize: "13px",
+                        fontSize: "14px",
                         color: "#e6e8ec",
                         fontWeight: 600,
                         minWidth: "72px",
