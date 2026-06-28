@@ -50,17 +50,26 @@ export const work: ShowcaseItem[] = [
 export const projects: ShowcaseItem[] = [
   {
     id: "tygrade",
-    name: "tygrade.me",
-    tagline: "Placeholder tagline",
+    name: "AI Report Grader — tygrade.me",
+    tagline: "AI-assisted academic report grading, production deployed",
     meta: ["Solo", "2025", "Live"],
     overview:
-      "Placeholder — describe tygrade.me here.",
+      "A production web application for AI-assisted academic report grading, built and deployed end-to-end. The system processes Thai-language PDF reports through an LLM evaluation pipeline using Typhoon 2.1 via Ollama, returning structured JSON scores across four grading dimensions. Includes a dashboard for managing grading projects, an AI evaluation trigger interface, and a human-in-the-loop review page where evaluators can inspect and adjust AI-generated scores. Deployed on DigitalOcean with GitHub Actions CI/CD.",
+    highlight: "Presented at ECTI-CARD 2026 — r = 0.888 correlation with human graders",
     categories: [
-      { label: "Frontend", items: ["—"] },
-      { label: "Backend", items: ["—"] },
+      { label: "Frontend", items: ["Next.js", "TypeScript", "TailwindCSS"] },
+      { label: "Backend", items: ["NestJS", "Prisma", "Python", "PyMuPDF", "Pandas", "Ollama", "Typhoon 2.1"] },
+      { label: "Infra", items: ["DigitalOcean", "GitHub Actions"] },
     ],
     links: [
-      { label: "Live site", href: "https://tygrade.me" },
+      { label: "GitHub", href: "https://github.com/Santirat-H/ai-report-grader" },
+      { label: "Demo", href: "https://tygrade.me/project/0a5d5836-667f-416d-a7fc-12a6ea2f39c4" },
+    ],
+    photos: [
+      { src: "/tygrade/tygrade-create-project.jpg", caption: "Create Grading Project" },
+      { src: "/tygrade/tygrade-project-dashboard.jpg", caption: "Project Dashboard" },
+      { src: "/tygrade/tygrade-human-review.jpg", caption: "Human Review Interface" },
+      { src: "/tygrade/tygrade-human-edit.jpg", caption: "Score Adjustment" },
     ],
   },
   {
