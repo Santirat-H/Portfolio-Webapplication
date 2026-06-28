@@ -2,14 +2,19 @@ export type ShowcaseLink = { label: string; href: string; disabled?: boolean; no
 export type ShowcaseCategory = { label: string; items: string[] };
 export type ShowcasePhoto = { src: string; caption?: string };
 
+export type ShowcaseStat = { value: string; label: string };
+
 export type ShowcaseItem = {
   id: string;
   name: string;
   tagline: string;
+  subtitle?: string;
   meta: string[];
   overview: string;
   highlight?: string;
   categories: ShowcaseCategory[];
+  stats?: ShowcaseStat[];
+  paperTitle?: string;
   links: ShowcaseLink[];
   cover?: string;
   photos?: ShowcasePhoto[];
@@ -105,16 +110,24 @@ export const projects: ShowcaseItem[] = [
 export const achievements: ShowcaseItem[] = [
   {
     id: "ecti-card",
-    name: "ECTI-CARD",
-    tagline: "Placeholder — conference / award",
-    meta: ["ECTI", "2024"],
+    name: "ECTI-CARD 2026 — Conference Paper",
+    tagline: "",
+    subtitle: "18th ECTI-CARD 2026 · Nakhon Ratchasima, Thailand · 27–29 April 2026",
+    meta: ["Research Paper", "ECTI-CARD", "April 2026"],
     overview:
-      "Placeholder — describe the ECTI-CARD achievement here.",
+      "Research paper presented at the 18th ECTI Conference on Application Research and Development (ECTI-CARD 2026). The paper proposes and evaluates a Thai-context automated grading system using the Typhoon 2.1 large language model, tested against assessments from 4 human teaching assistants across 31 student reports.",
     categories: [
-      { label: "Issued by", items: ["ECTI"] },
-      { label: "Category", items: ["—"] },
+      { label: "Conference", items: ["ECTI-CARD 2026"] },
+      { label: "Field", items: ["Applied Research"] },
     ],
-    links: [{ label: "View details", href: "#" }],
+    stats: [
+      { value: "r = 0.888", label: "Pearson Correlation with Human Graders" },
+      { value: "MAE = 0.927/5", label: "Mean Absolute Error" },
+      { value: ">90%", label: "Cases within ±1 point of human score" },
+    ],
+    paperTitle:
+      "Application of Large Language Models for Automated Subjective Assessment: A Thai-Context Grading System using Typhoon 2.1",
+    links: [],
   },
   {
     id: "japan",

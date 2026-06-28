@@ -341,16 +341,30 @@ function DetailPanel({
       >
         {item.name}
       </h3>
-      <p
-        style={{
-          fontFamily: "var(--font-jetbrains-mono), monospace",
-          fontSize: "13px",
-          color: "var(--accent)",
-          margin: "0 0 16px",
-        }}
-      >
-        {item.tagline}
-      </p>
+      {item.subtitle && (
+        <p
+          style={{
+            fontFamily: "var(--font-jetbrains-mono), monospace",
+            fontSize: "12px",
+            color: "#5a606b",
+            margin: "4px 0 12px",
+          }}
+        >
+          {item.subtitle}
+        </p>
+      )}
+      {item.tagline && (
+        <p
+          style={{
+            fontFamily: "var(--font-jetbrains-mono), monospace",
+            fontSize: "13px",
+            color: "var(--accent)",
+            margin: "0 0 16px",
+          }}
+        >
+          {item.tagline}
+        </p>
+      )}
       <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
         {item.meta.map((m) => (
           <span
@@ -533,6 +547,72 @@ function DetailPanel({
           </div>
         </div>
       </div>
+
+      {item.stats && (
+        <>
+          <div style={{ height: "1px", background: "rgba(255,255,255,.07)", margin: "20px 0" }} />
+          <div
+            style={{
+              fontFamily: "var(--font-jetbrains-mono), monospace",
+              fontSize: "11px",
+              letterSpacing: ".2em",
+              color: "#6b7280",
+              marginBottom: "14px",
+            }}
+          >
+            KEY RESULTS
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px" }}>
+            {item.stats.map((s) => (
+              <div
+                key={s.label}
+                style={{
+                  padding: "16px 20px",
+                  border: "1px solid rgba(255,255,255,.07)",
+                  borderRadius: "8px",
+                  background: "rgba(255,255,255,.015)",
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "var(--font-jetbrains-mono), monospace",
+                    fontSize: "22px",
+                    fontWeight: 700,
+                    color: "var(--accent)",
+                    letterSpacing: "-.02em",
+                  }}
+                >
+                  {s.value}
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-jetbrains-mono), monospace",
+                    fontSize: "10px",
+                    color: "#5a606b",
+                    marginTop: "8px",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {s.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+      {item.paperTitle && (
+        <p
+          style={{
+            fontStyle: "italic",
+            fontSize: "13px",
+            color: "#5a606b",
+            margin: "16px 0 0",
+            lineHeight: 1.6,
+          }}
+        >
+          &ldquo;{item.paperTitle}&rdquo;
+        </p>
+      )}
 
       {/* Photo strip */}
       {photos.length > 0 && (
