@@ -15,6 +15,7 @@ export type ShowcaseItem = {
   categories: ShowcaseCategory[];
   stats?: ShowcaseStat[];
   paperTitle?: string;
+  previewNote?: string;
   links: ShowcaseLink[];
   cover?: string;
   photos?: ShowcasePhoto[];
@@ -79,17 +80,20 @@ export const projects: ShowcaseItem[] = [
   },
   {
     id: "portfolio",
-    name: "Portfolio",
-    tagline: "This site",
+    name: "Portfolio Site — this site",
+    tagline: "Personal portfolio with a macOS file-manager interface",
     meta: ["Solo", "2025", "Live"],
     overview:
-      "Personal portfolio built with Next.js, React 19, TypeScript, and Tailwind CSS v4. Dark-themed macOS-style file manager interface.",
+      "Personal portfolio built around a macOS-style file-manager window as the primary interface. Three scroll-driven sections — a hero landing, this file-manager, and a background panel — connected by wheel, keyboard, and touch navigation. Monorepo (portfolio-web) with a Next.js 16 frontend and a NestJS API, dark-themed at #08090c with a six-color accent system persisted in localStorage.",
+    highlight: "Designed and built from scratch — monorepo, dark theme, file-system UI",
     categories: [
-      { label: "Frontend", items: ["Next.js", "React 19", "TypeScript", "Tailwind CSS v4"] },
-      { label: "Infra", items: ["Vercel"] },
+      { label: "Frontend", items: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS v4"] },
+      { label: "API", items: ["NestJS 11"] },
     ],
+    previewNote: "You're looking at it.",
     links: [
-      { label: "GitHub", href: "#" },
+      { label: "GitHub", href: "#", disabled: true, note: "Coming soon" },
+      { label: "Demo", href: "#", disabled: true, note: "You're here" },
     ],
   },
   {

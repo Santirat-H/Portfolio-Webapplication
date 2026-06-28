@@ -615,6 +615,35 @@ function DetailPanel({
       )}
 
       {/* Photo strip */}
+      {photos.length === 0 && item.previewNote && (
+        <>
+          <div style={{ height: "1px", background: "rgba(255,255,255,.07)", margin: "22px 0 18px" }} />
+          <div>
+            <div
+              style={{
+                fontFamily: "var(--font-jetbrains-mono), monospace",
+                fontSize: "11px",
+                letterSpacing: ".2em",
+                color: "#6b7280",
+                marginBottom: "12px",
+              }}
+            >
+              PREVIEW
+            </div>
+            <p
+              style={{
+                fontFamily: "var(--font-jetbrains-mono), monospace",
+                fontStyle: "italic",
+                fontSize: "13px",
+                color: "#5a606b",
+                margin: 0,
+              }}
+            >
+              {item.previewNote}
+            </p>
+          </div>
+        </>
+      )}
       {photos.length > 0 && (
         <>
           <div style={{ height: "1px", background: "rgba(255,255,255,.07)", margin: "22px 0 18px" }} />
